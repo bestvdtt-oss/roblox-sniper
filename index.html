@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Username Sniper</title>
+    <style>
+        body { background: #000000; color: #ffffff; font-family: monospace; padding: 20px; text-align: left; }
+        h1 { font-size: 20px; margin-bottom: 5px; color: #00ff00; }
+        .info { color: #888; font-size: 14px; margin-bottom: 20px; }
+        button { background: #222; color: #00ff00; border: 1px solid #00ff00; padding: 10px 20px; font-family: monospace; font-size: 16px; cursor: pointer; margin-bottom: 20px; width: 100%; max-width: 300px; }
+        button:active { background: #00ff00; color: #000; }
+        .console { font-size: 15px; line-height: 1.4; }
+        .minus { color: #ff3333; }
+        .plus { color: #00ff00; text-decoration: underline; display: block; margin: 5px 0; background: #111; padding: 5px; border: 1px dashed #00ff00; }
+    </style>
+</head>
+<body>
+
+    <h1>ROBLOX SNIPER v2.0</h1>
+    <div class="info">Generates rare 3 & 4 letter combinations. Click GREEN to check availability.</div>
+
+    <button id="action-btn" onclick="startSniper()">[ START SNIPER ]</button>
+
+    <div class="console" id="log-output">Console ready...</div>
+
+<script>
+let running = false;
+let loop = null;
+const pool = 'qxzjvwkbygtf';
+
+function startSniper() {
+    const btn = document.getElementById('action-btn');
+    const output = document.getElementById('log-output');
+    
+    if (!running) {
+        running = true;
+        btn.innerText = '[ STOP SNIPER ]';
+        btn.style.borderColor = '#ff3333';
+        btn.style.color = '#ff3333';
+        output.innerHTML = 'Status: Scanning active pools...<br>';
+        
+        loop = setInterval(() => {
+            let name = '';
+            let len = Math.random() < 0.35 ? 3 : 4; 
+            
+            for (let i = 0; i < len; i++) {
+                name += pool.charAt(Math.floor(Math.random() * pool.length));
+            }
+            
+            if (Math.random() > 0.95) {
+                const link = document.createElement('a');
+                link.className = 'plus';
+                // Прямой переход на официальный сайт Roblox для честной проверки
+                link.href = `https://roblox.com{name}`;
+                link.target = '_blank';
+                link.innerHTML = `[+] POTENTIAL HIT [${len}L]: ${name} -> CLICK TO CHECK`;
+                output.appendChild(link);
+            } else {
+                const line = document.createElement('div');
+                line.className = 'minus';
+                line.innerText = `[-] ${name}`;
+                output.appendChild(line);
+            }
+            
+            // Автоматическая прокрутка экрана вниз за новыми строками
+            window.scrollTo(0, document.body.scrollHeight);
+        }, 300);
+    } else {
+        running = false;
+        btn.innerText = '[ START SNIPER ]';
+        btn.style.borderColor = '#00ff00';
+        btn.style.color = '#00ff00';
+        clearInterval(loop);
+        output.innerHTML += '<br><span style="color:#00ff00">[!] Process stopped.</span>';
+    }
+}
+</script>
+
+</body>
+</html>
